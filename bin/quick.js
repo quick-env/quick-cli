@@ -1,11 +1,11 @@
 #! /usr/bin/env node
 'use strict';
-const { Command } = require('commander')
-const pkg = require('../package.json')
-const chalk = require('chalk')
-const figlet = require('figlet')
+const { Command } = require('commander');
+const pkg = require('../package.json');
+const chalk = require('chalk');
+const figlet = require('figlet');
 const program = new Command();
-const Init = require('../core/init.js')
+const Init = require('../core/init.js');
 
 program.version(pkg.version);
 program
@@ -23,12 +23,38 @@ program
 program
   .command('tlist')
   .description('查看已支持的模板列表')
-  .action(() => {});
+  .action(() => {
+    console.log(
+      chalk.magentaBright(
+        `\n`,
+        `\b Vue3中后台模板\n`,
+        `Vue3移动端模板\n`,
+        `Vue低代码工程模板\n`,
+        `Electron桌面客户端模板\n`,
+        `组件开发模板\n`,
+        `Nest工程模板\n`,
+        `React低代码工程模板\n`
+      )
+    );
+  });
 
 program
   .command('clist')
   .description('查看可加载的配置列表')
-  .action(() => {});
+  .action(() => {
+    console.log(
+      chalk.hex('#FFA500')(
+        `\n`,
+        `\b eslint\n`,
+        `stylelint\n`,
+        `commitlint\n`,
+        `husky + lint-stage\n`,
+        `webpack构建配置\n`,
+        `rollup构建配置\n`,
+        `vite构建配置\n`
+      )
+    );
+  });
 
 program.parse(process.argv);
 if (!program.args.length) {
