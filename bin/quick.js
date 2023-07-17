@@ -12,13 +12,17 @@ program
   .command('init <project-name>')
   .description('初始化项目模板')
   .action((name) => {
-    console.log(`...args --->`, name);
+    const init = new Init(name)
+    init.checkProject()
+    console.log(`name --->`, name);
   });
 
 program
   .command('add')
   .description('添加配置文件')
-  .action(() => {});
+  .action(async () => {
+    
+  });
 
 program
   .command('tlist')
@@ -27,13 +31,13 @@ program
     console.log(
       chalk.magentaBright(
         `\n`,
-        `\b Vue3中后台模板\n`,
-        `Vue3移动端模板\n`,
-        `Vue低代码工程模板\n`,
-        `Electron桌面客户端模板\n`,
-        `组件开发模板\n`,
-        `Nest工程模板\n`,
-        `React低代码工程模板\n`
+        `\b Vue3中后台开发模板\n`,
+        `Vue3移动端开发模板\n`,
+        `Vue低代码工程开发模板\n`,
+        `Electron桌面客户端开发模板\n`,
+        `组件开发开发模板\n`,
+        `Nest工程开发模板\n`,
+        `React低代码工程开发模板\n`
       )
     );
   });

@@ -27,6 +27,7 @@
   "dependencies": {
     "chalk": "4.1.2",
     "commander": "^10.0.1",
+    "down-git-files": "^1.0.1",
     "download-git-repo": "^3.0.2",
     "figlet": "^1.6.0",
     "fs-extra": "^11.1.1",
