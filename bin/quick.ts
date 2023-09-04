@@ -1,28 +1,26 @@
 #! /usr/bin/env node
-'use strict';
-const { Command } = require('commander');
-const pkg = require('../package.json');
-const chalk = require('chalk');
-const figlet = require('figlet');
+import { Command } from 'commander';
+import pkg from '../package.json';
+import chalk from 'chalk';
+import figlet from 'figlet';
+import QuickInit from '../core/init';
 const program = new Command();
-const Init = require('../core/init.js');
 
 program.version(pkg.version);
+
 program
   .command('init <project-name>')
   .description('初始化项目模板')
   .action((name) => {
-    const init = new Init(name)
-    init.checkProject()
+    const init = new QuickInit(name);
+    init._checkProject();
     console.log(`name --->`, name);
   });
 
 program
   .command('add')
   .description('添加配置文件')
-  .action(async () => {
-    
-  });
+  .action(async () => {});
 
 program
   .command('template')
