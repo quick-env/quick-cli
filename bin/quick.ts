@@ -1,9 +1,13 @@
 #! /usr/bin/env node
-import { Command } from 'commander';
-import pkg from '../package.json';
+import ora from 'ora';
 import chalk from 'chalk';
+import inquirer from 'inquirer';
 import figlet from 'figlet';
+import pkg from '../package.json';
+import { Command } from 'commander';
 import QuickInit from '../core/init';
+import quickAddConfig from '../core/add';
+import { LINT_PROMPT } from '../prompt/lint.prompt';
 const program = new Command();
 
 program.version(pkg.version);
@@ -20,7 +24,18 @@ program
 program
   .command('add')
   .description('添加配置文件')
-  .action(async () => {});
+  .action(async () => {
+    inquirer.prompt(LINT_PROMPT).then((response: {lintConfig: string[]}) => {
+      const { lintConfig } = response;
+      const hasNone = lintConfig.includes('none');
+      if (hasNone) {
+        console.log(chalk.red(`选项包含none选项, 暂不配置`));
+        console.log(chalk.green(`${JSON.stringify(lintConfig)}`));
+        process.exit(1);
+      }
+      lintConfig.map((conf: string) => quickAddConfig._download(conf));
+    });
+  });
 
 program
   .command('template')
