@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:37:52
  * @LastEditors: liya
- * @LastEditTime: 2023-09-09 20:42:30
+ * @LastEditTime: 2023-09-09 20:54:55
  * @Description: 添加工程化配置
  */
 import fs from 'fs';
@@ -48,7 +48,6 @@ class QuickAddConfig {
     const conf = LINT_MAP[name];
     const { download, origin } = LINT_FILE_MAP[name];
     const exits = this._isExit(conf);
-    console.log(`exits ------->`, exits);
     if (exits.length) {
       const fileName = exits[0];
       const LINT_CHOOSE = lintChoose(fileName);
@@ -82,6 +81,7 @@ class QuickAddConfig {
    * @param { string } download 下载到本地的文件名
    */
   _deleteOriginFile(file: string, origin: string, download: string) {
+    fs.copyFileSync(`${root}/${file}`, `${root}/${file}_bak`);
     fs.unlink(`${root}/${file}`, async (err) => {
       if (err) {
         console.log(chalk.yellow(`覆盖本地文件失败`));
@@ -91,14 +91,16 @@ class QuickAddConfig {
         user: 'quick-env',
         repo: 'quick-config',
         path: origin,
-        branch: 'feature/init11',
+        branch: 'feature/init',
         file: download,
       })
         .then(() => {
           ora('覆盖完毕!').stop();
+          fs.unlinkSync(`${root}/${file}_bak`);
         })
         .catch((error: Error) => {
           console.log(chalk.red(`下载配置失败`));
+          fs.renameSync(`${root}/${file}_bak`, `${root}/${file}`);
         });
     });
   }
