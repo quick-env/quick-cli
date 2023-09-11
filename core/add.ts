@@ -2,13 +2,12 @@
  * @Author: liya
  * @Date: 2023-09-04 18:37:52
  * @LastEditors: liya
- * @LastEditTime: 2023-09-11 11:48:03
+ * @LastEditTime: 2023-09-11 17:08:33
  * @Description: 添加工程化配置
  */
 import fs from 'fs'
 import path from 'path'
 import chalk from 'chalk'
-import inquirer from 'inquirer'
 import { fileRequest } from 'down-git-files'
 import { lintChoose } from '../prompt/lint.prompt'
 import {
@@ -47,76 +46,85 @@ class QuickAddConfig {
 	}
 	/**
 	 * 下载配置文件
-	 * @param  { string } name 通过命令行获取的配置名称
+	 * @param  { string } task 通过命令行获取的配置名称
 	 */
-	async _download(name: string) {
+	async _download(task: string[]) {
 		if (!this._isRoot()) {
 			console.log(chalk.red(`请在项目根目录执行`))
 			process.exit(1)
 		}
-		const conf = LINT_MAP[name]
-		const { download, origin } = LINT_FILE_MAP[name]
-		const exits = this._isExit(conf)
-		if (exits.length) {
-			const [fileName] = exits
-			const LINT_CHOOSE = lintChoose(fileName)
-			inquirer.prompt(LINT_CHOOSE).then((resp: { lintCover: boolean }) => {
-				const { lintCover } = resp
+		while (task.length) {
+			const name: string = task.shift() || ''
+			const conf = LINT_MAP[name]
+			const { download, origin } = LINT_FILE_MAP[name]
+			const exits = this._isExit(conf)
+			if (exits.length) {
+				const [fileName] = exits
+				const lintCover = await lintChoose(fileName)
 				if (!lintCover) {
-					process.exit(1)
+					console.log(chalk.red(`${fileName}不执行覆盖操作`))
+          continue;
 				}
-				this._coverOriginFIle(fileName, name)
-				this._downloadIgnoreFile(name, true)
-				this._runAction(name)
-			})
-		} else {
-			await fileRequest({
-				user: 'quick-env',
-				repo: 'quick-config',
-				path: origin,
-				branch: 'feature/init',
-				file: download,
-			})
-				.then(() => {
-					this._downloadIgnoreFile(name, false)
+				await this._coverOriginFIle(fileName, name)
+				await this._downloadIgnoreFile(name)
+				await this._runAction(name)
+			} else {
+				await fileRequest({
+					user: 'quick-env',
+					repo: 'quick-config',
+					path: origin,
+					branch: 'feature/init',
+					file: download,
 				})
-				.catch((error: Error) => {
-					console.log(chalk.red(`下载配置失败`))
-				})
+					.then(() => {
+						this._downloadIgnoreFile(name)
+					})
+					.catch((error: Error) => {
+						console.log(chalk.red(`下载配置失败`))
+					})
+			}
 		}
 	}
 	/**
 	 * 下载ignore配置<eslint/prettier>
 	 * @param { string } confName 通过命令行获取的配置名称
 	 */
-	async _downloadIgnoreFile(confName: string, isExits: boolean) {
+	async _downloadIgnoreFile(confName: string) {
 		const ignoreType = hasIgnored.includes(confName)
 		if (ignoreType) {
 			const ignoreName = ignoreType && `${confName}ignore`
-			const { download, origin } = LINT_FILE_MAP[ignoreName]
+			const isExits = fs.existsSync(`${root}/${ignoreName}`)
+			let downloadPos, originPos
 			if (isExits) {
 				fs.copyFileSync(`${root}/.${ignoreName}`, `${root}/.${ignoreName}_bak`)
+				const { download, origin } = LINT_FILE_MAP[ignoreName]
+				downloadPos = download
+				originPos = origin
 				fs.unlink(`${root}/.${ignoreName}`, async (err) => {
 					if (err) {
 						console.log(chalk.yellow(`覆盖本地文件失败`))
-						fs.renameSync(`${root}/.${ignoreName}_bak`, `${root}/${ignoreName}`)
+						fs.renameSync(`${root}/.${ignoreName}_bak`, `${root}/.${ignoreName}`)
 						process.exit(1)
 					}
 				})
+			} else {
+				const { download, origin } = LINT_FILE_MAP[ignoreName]
+				downloadPos = download
+				originPos = origin
 			}
 			await fileRequest({
 				user: 'quick-env',
 				repo: 'quick-config',
-				path: origin,
+				path: originPos,
 				branch: 'feature/init',
-				file: download,
+				file: downloadPos,
 			})
 				.then(() => {
 					ora(`.${ignoreName}覆盖完毕!`).succeed()
 					isExits && fs.unlinkSync(`${root}/.${ignoreName}_bak`)
 				})
 				.catch((error: Error) => {
-					console.log(chalk.red(`${ignoreName} 下载配置失败`))
+					console.log(chalk.red(`.${ignoreName} 下载配置失败`))
 					isExits && fs.renameSync(`${root}/.${ignoreName}_bak`, `${root}/.${ignoreName}`)
 				})
 		}
@@ -126,7 +134,7 @@ class QuickAddConfig {
 	 * @param { string } fileName 项目中存在的配置文件
 	 * @param { string } confName 命令行名称
 	 */
-	_coverOriginFIle(fileName: string, confName: string) {
+	async _coverOriginFIle(fileName: string, confName: string) {
 		fs.copyFileSync(`${root}/${fileName}`, `${root}/${fileName}_bak`)
 		fs.unlink(`${root}/${fileName}`, async (err) => {
 			if (err) {
@@ -156,19 +164,19 @@ class QuickAddConfig {
 	 * 获取命令行配置，set各个配置的scripts或config
 	 * @param { string } name
 	 */
-	_runAction(name: string) {
+	async _runAction(name: string) {
 		if (notRequired.includes(name)) {
 			return
 		}
 		const actions = LINT_SCRIPTS[name]
 		actions.map((action) => shell.exec(action))
-    this._install(name);
+		await this._install(name)
 	}
 	/**
 	 * 获取命令行配置，安装依赖
 	 * @param { string } name
 	 */
-	_install(name: string) {
+	async _install(name: string) {
 		const pkg = LINT_PKG_LIST[name]
 		quickInstall.execCmd(['install', ...pkg, '-D'], () => {
 			console.log(symbols.success, chalk.green(`${[...pkg]} installed`))

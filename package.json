@@ -8,8 +8,7 @@
   },
   "scripts": {
     "watch": "npx tsc --watch",
-    "test": "node ./dist/bin/quick.js",
-    "format": "prettier --write src"
+    "test": "node ./dist/bin/quick.js"
   },
   "repository": {
     "type": "git",
@@ -39,8 +38,5 @@
     "semver": "^7.5.4",
     "shelljs": "^0.8.5",
     "which": "^4.0.0"
-  },
-  "devDependencies": {
-    "@types/node": "^20.5.9"
   }
 }

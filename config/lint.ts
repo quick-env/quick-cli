@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-09 11:47:00
  * @LastEditors: liya
- * @LastEditTime: 2023-09-11 11:14:00
+ * @LastEditTime: 2023-09-11 15:46:10
  * @Description: 工程化配置
  */
 import {
@@ -78,7 +78,7 @@ export const LINT_SCRIPTS: {
 	prettier: [`npm pkg set scripts.format="prettier --write src"`],
 	commitlint: [
 		`npm pkg set scripts.cm="git add . && git cz"`,
-		`npm pkg set scripts.changelog= "conventional-changelog -p angular -i CHANGELOG.md -s"`,
+		`npm pkg set scripts.changelog="conventional-changelog -p angular -i CHANGELOG.md -s"`,
 		`npm pkg set config.commitizen.path="./node_modules/cz-emoji-chinese"`,
 	],
 	'lint-staged': [
@@ -92,7 +92,7 @@ export const LINT_SCRIPTS: {
 	],
 	vite: [
 		`npm pkg set scripts.vite:dev="cross-env=dev vite"`,
-		`npm pkg set scripts.vite:dev="cross-env=dev vite build"`,
+		`npm pkg set scripts.vite:build="cross-env=prod vite build"`,
 	],
 }
 // lint 安装包列表

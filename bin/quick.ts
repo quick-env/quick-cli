@@ -33,7 +33,7 @@ program
 				console.log(chalk.green(`${JSON.stringify(lintConfig)}`))
 				process.exit(1)
 			}
-			lintConfig.map((conf: string) => quickAddConfig._download(conf))
+      quickAddConfig._download(lintConfig)
 		})
 	})
 

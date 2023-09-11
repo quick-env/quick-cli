@@ -2,9 +2,10 @@
  * @Author: liya
  * @Date: 2023-09-08 19:05:34
  * @LastEditors: liya
- * @LastEditTime: 2023-09-09 20:35:16
+ * @LastEditTime: 2023-09-11 16:53:47
  * @Description: 工程化配置
  */
+import inquirer from 'inquirer';
 export const LINT_PROMPT = [
   {
     type: 'checkbox',
@@ -23,13 +24,13 @@ export const LINT_PROMPT = [
     ],
   },
 ];
-export const lintChoose = (name: string) => {
-  return [
+export const lintChoose = async (name: string) => {
+  const answer = await inquirer.prompt([
     {
       type: 'confirm',
-      message: `项目中存在${name}配置, 是否覆盖本地配置`,
-      name: 'lintCover',
-      choices: ['Yes', 'No'],
-    },
-  ];
+      name: 'overwrite',
+      message: `The "${name}" already exists. Do you want to overwrite it?`
+    }
+  ]);
+  return answer.overwrite;
 };
