@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-09 11:47:00
  * @LastEditors: liya
- * @LastEditTime: 2023-09-11 15:46:10
+ * @LastEditTime: 2023-09-14 16:15:14
  * @Description: 工程化配置
  */
 import {
@@ -48,10 +48,6 @@ export const LINT_FILE_MAP: {
 		download: '.prettierignore',
 	},
 	commitlint: {
-		origin: 'lint/commitlint/commitlint.config.ts',
-		download: 'commitlint.config.ts',
-	},
-	'lint-staged': {
 		origin: 'lint/commitlint/commitlint.config.ts',
 		download: 'commitlint.config.ts',
 	},
@@ -108,7 +104,7 @@ export const LINT_PKG_LIST: { [key: string]: string[] } = {
 		'@vue/eslint-config-prettier@7',
 		'@vue/eslint-config-typescript@11',
 	],
-	prettier: ['prettier@3'],
+	prettier: ['prettier@2'],
 	commitlint: [
 		'commitizen@4',
 		'conventional-changelog-cli@4',
@@ -135,3 +131,5 @@ export const LINT_PKG_LIST: { [key: string]: string[] } = {
 export const hasIgnored: string[] = ['eslint', 'prettier'];
 // 不需要设置script的工具
 export const notRequired: string[] = ['tsconfig', 'postcss'];
+// 无需下载配置文件的工具
+export const notDownloadConfig: string[] = ['lint-staged', 'husky'];
