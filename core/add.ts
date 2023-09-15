@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:37:52
  * @LastEditors: liya
- * @LastEditTime: 2023-09-15 16:37:01
+ * @LastEditTime: 2023-09-15 18:00:25
  * @Description: 添加工程化配置
  */
 import fs from 'fs';
@@ -23,6 +23,7 @@ import ora from 'ora';
 import shell from 'shelljs';
 import symbols from 'log-symbols';
 import quickInstall from './install';
+import { DOWNLOAD_CONFIG } from 'constant';
 const root = process.cwd();
 
 class QuickAddConfig {
@@ -75,15 +76,15 @@ class QuickAddConfig {
         await this._runAction(name);
       } else {
         await fileRequest({
-          user: 'quick-env',
-          repo: 'quick-config',
+          user: DOWNLOAD_CONFIG.USER,
+          repo: DOWNLOAD_CONFIG.REPO,
           path: origin,
-          branch: 'feature/init',
+          branch: DOWNLOAD_CONFIG.BRANCH,
           file: download,
         })
           .then(() => {
             this._downloadIgnoreFile(name);
-            this._runAction(name)
+            this._runAction(name);
           })
           .catch((error: Error) => {
             console.log(chalk.red(`下载配置失败`));
@@ -105,10 +106,10 @@ class QuickAddConfig {
       }
       const { download, origin } = LINT_FILE_MAP[ignoreName];
       await fileRequest({
-        user: 'quick-env',
-        repo: 'quick-config',
+        user: DOWNLOAD_CONFIG.USER,
+        repo: DOWNLOAD_CONFIG.REPO,
         path: origin,
-        branch: 'feature/init',
+        branch: DOWNLOAD_CONFIG.BRANCH,
         file: download,
       })
         .then(() => {
@@ -134,10 +135,10 @@ class QuickAddConfig {
     this.unlinkFile(fileName);
     const { download, origin } = LINT_FILE_MAP[confName];
     await fileRequest({
-      user: 'quick-env',
-      repo: 'quick-config',
+      user: DOWNLOAD_CONFIG.USER,
+      repo: DOWNLOAD_CONFIG.REPO,
       path: origin,
-      branch: 'feature/init',
+      branch: DOWNLOAD_CONFIG.BRANCH,
       file: download,
     })
       .then(() => {
@@ -172,7 +173,6 @@ class QuickAddConfig {
       const actions = LINT_SCRIPTS[name];
       actions.map((action) => shell.exec(action));
     }
-    console.log(`能执行到这吗？`)
     await this._install(name);
   }
   /**
