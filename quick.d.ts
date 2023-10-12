@@ -5,3 +5,4 @@ declare module 'semver';
 declare module 'down-git-files';
 declare module 'inquirer';
 declare module 'which';
+declare module 'handlebar'

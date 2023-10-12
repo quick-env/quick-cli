@@ -14,6 +14,9 @@
     "type": "git",
     "url": "git+https://github.com/quick-env/quick-cli.git"
   },
+  "files": [
+    "dist"
+  ],
   "keywords": [
     "quick",
     "cli",
@@ -26,12 +29,14 @@
   },
   "homepage": "https://github.com/quick-env/quick-cli#readme",
   "dependencies": {
+    "@types/node": "^20.8.4",
     "chalk": "4.1.2",
     "commander": "^10.0.1",
     "down-git-files": "^1.0.1",
     "download-git-repo": "^3.0.2",
     "figlet": "^1.6.0",
     "fs-extra": "^11.1.1",
+    "handlebars": "^4.7.8",
     "inquirer": "^8.2.6",
     "log-symbols": "^4.1.0",
     "ora": "^5.4.1",

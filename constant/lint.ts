@@ -13,7 +13,7 @@ import {
 	LINT_STAGED_REG,
 	TSCONFIG_REG,
 	VITE_REG,
-} from '../constant'
+} from '.'
 // 检查项目中是否存在的正则
 export const LINT_MAP: { [key: string]: RegExp } = {
 	eslint: ESLINT_REG,
