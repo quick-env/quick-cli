@@ -5,9 +5,10 @@ import inquirer from 'inquirer';
 import figlet from 'figlet';
 import pkg from '../package.json';
 import { Command } from 'commander';
-import QuickInit from '../core/init';
+import QuickInit, { IBootstrap } from '../core/init';
 import quickAddConfig from '../core/add';
 import { LINT_PROMPT } from '../prompt/lint.prompt';
+import { INIT_PROMPT } from '../prompt/init.prompt';
 const program = new Command();
 
 program.version(pkg.version);
@@ -16,9 +17,10 @@ program
   .command('init <project-name>')
   .description('初始化项目模板')
   .action((name) => {
-    const init = new QuickInit(name);
-    init._checkProject();
-    console.log(`name --->`, name);
+    inquirer.prompt(INIT_PROMPT).then((response: IBootstrap) => {
+      const init = new QuickInit(name, response);
+      init._bootstrap();
+    });
   });
 
 program
@@ -33,8 +35,7 @@ program
         console.log(chalk.green(lintConfig.join('\n')));
         process.exit(1);
       }
-      console.log(`lintConfig ---->`, lintConfig);
-			quickAddConfig._download(lintConfig);
+      quickAddConfig._download(lintConfig);
     });
   });
 

@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:37:52
  * @LastEditors: liya
- * @LastEditTime: 2023-09-15 18:00:25
+ * @LastEditTime: 2023-10-10 15:20:39
  * @Description: 添加工程化配置
  */
 import fs from 'fs';
@@ -18,12 +18,12 @@ import {
   hasIgnored,
   notDownloadConfig,
   notRequired,
-} from '../config/lint';
+} from '../constant/lint';
 import ora from 'ora';
 import shell from 'shelljs';
 import symbols from 'log-symbols';
 import quickInstall from './install';
-import { DOWNLOAD_CONFIG } from 'constant';
+import { DOWNLOAD_CONFIG } from '../constant';
 const root = process.cwd();
 
 class QuickAddConfig {
@@ -151,7 +151,7 @@ class QuickAddConfig {
       });
   }
   /**
-   * 删除本地配置文件
+   * 删除本地配置文件，删除前把本地项目的配置文件备份，如果删除失败，把备份的文件再改回去
    * @param { string } localFile 本地项目配置文件
    */
   unlinkFile(localFile: string) {
