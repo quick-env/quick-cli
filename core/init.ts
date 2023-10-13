@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:17:36
  * @LastEditors: liya
- * @LastEditTime: 2023-10-12 14:37:38
+ * @LastEditTime: 2023-10-12 19:51:58
  * @Description: 创建工程模板
  */
 import ora from 'ora';
@@ -10,12 +10,12 @@ import path from 'path';
 import chalk from 'chalk';
 import shell from 'shelljs';
 import symbols from 'log-symbols';
-import QuickInstall from './install';
 import FileHelper from '../utils/file';
 import { checkVersion } from '../utils/check';
 import download from 'download-git-repo';
 import { TEMPLATE_LIST } from '../constant/template';
 import CompileTemplate from '../compile';
+import install from './install';
 const baseDir = process.cwd();
 const fileHelper = new FileHelper();
 export interface IBootstrap {
@@ -50,7 +50,7 @@ export default class QuickInit {
    * Download project templates to local location
    */
   _download() {
-    const spinner = ora('start downloading project template').start();
+    const spinner = ora('start downloading project template \n').start();
     const { template } = this.meta;
     const url = TEMPLATE_LIST[template];
     download(
@@ -62,10 +62,10 @@ export default class QuickInit {
       (error: Error) => {
         if (error) {
           console.log(symbols.error, error);
-          spinner.fail('project template download failed');
+          spinner.fail('project template download failed \n');
           process.exit(1);
         }
-        spinner.succeed('successfully downloaded the project template');
+        spinner.succeed('successfully downloaded the project template \n');
         this._compile();
       }
     );
@@ -74,7 +74,7 @@ export default class QuickInit {
    * compile project template
    */
   _compile() {
-    const spinner = ora('start compile project template').start();
+    const spinner = ora('start compiling project template \n').start();
     const isVue = this.meta.template.indexOf('Vue') > -1;
     const isElectron = this.meta.template.indexOf('Electron') > -1;
     const isComponent = this.meta.template.indexOf('Component') > -1;
@@ -82,15 +82,21 @@ export default class QuickInit {
     const isNest = this.meta.template.indexOf('Nest') > -1;
     const compile = new CompileTemplate(this.projectName, this.meta);
     isVue && compile._vueTemplate();
-    isElectron && compile._electronTemplate()
+    isElectron && compile._electronTemplate();
+    isComponent && compile._componentsTemplate();
+    isReact && compile._reactTemplate();
+    isNest && compile._nestTemplate();
+    spinner.succeed('compiled project template successfully \n');
     this._install();
-    spinner.succeed('compiled project template successfully');
   }
   /**
    * 安装项目依赖
    */
   _install() {
-    const spinner = ora('start install project template').start();
-    spinner.succeed('install done!');
+    shell.cd(this.rootDir)
+    const spinner = ora('start installing dependencies \n').start();
+    install.execCmd(['install'], () => {
+      spinner.succeed('dependencies install done! \n');
+    })
   }
 }

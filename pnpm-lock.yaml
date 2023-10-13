@@ -26,9 +26,6 @@ dependencies:
   fs-extra:
     specifier: ^11.1.1
     version: registry.npmmirror.com/fs-extra@11.1.1
-  handlebar:
-    specifier: ^1.0.0
-    version: registry.npmmirror.com/handlebar@1.0.0
   handlebars:
     specifier: ^4.7.8
     version: registry.npmmirror.com/handlebars@4.7.8
@@ -762,15 +759,6 @@ packages:
     version: 4.2.11
     dev: false
 
-  registry.npmmirror.com/handlebar@1.0.0:
-    resolution: {integrity: sha512-uD430vbxB0MevytP9+MEckbAQHkJsSCEDoSJW1V6SH6ypRZx98377lIWIgJZKOasn719q7HccaEy9qRzr5ji8A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/handlebar/-/handlebar-1.0.0.tgz}
-    name: handlebar
-    version: 1.0.0
-    dependencies:
-      handlebars: registry.npmmirror.com/handlebars@4.7.8
-      jquery: registry.npmmirror.com/jquery@2.2.4
-    dev: false
-
   registry.npmmirror.com/handlebars@4.7.8:
     resolution: {integrity: sha512-vafaFqs8MZkRrSX7sFVUdo3ap/eNiLnb4IakshzvP56X5Nr1iGKAIqdX6tMlm6HcNRIkr6AxO5jFEoJzzpT8aQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/handlebars/-/handlebars-4.7.8.tgz}
     name: handlebars
@@ -979,12 +967,6 @@ packages:
     dependencies:
       has-to-string-tag-x: registry.npmmirror.com/has-to-string-tag-x@1.4.1
       is-object: registry.npmmirror.com/is-object@1.0.2
-    dev: false
-
-  registry.npmmirror.com/jquery@2.2.4:
-    resolution: {integrity: sha512-lBHj60ezci2u1v2FqnZIraShGgEXq35qCzMv4lITyHGppTnA13rwR0MgwyNJh9TnDs3aXUvd1xjAotfraMHX/Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/jquery/-/jquery-2.2.4.tgz}
-    name: jquery
-    version: 2.2.4
     dev: false
 
   registry.npmmirror.com/json-buffer@3.0.0:
