@@ -10,7 +10,7 @@ import which from 'which';
 import { spawn } from 'child_process';
 class QuickInstall {
   checkNpm() {
-    let installTools = ['pnpm', 'pnpm', 'cnpm', 'yarn'];
+    let installTools = ['pnpm', 'npm', 'cnpm', 'yarn'];
     for (let i = 0, len = installTools.length; i < len; i++) {
       try {
         which.sync(installTools[i]);
@@ -28,10 +28,16 @@ class QuickInstall {
    * @param { function } fn 回调函数
    */
   execCmd(args: string[], fn?: (code: number) => void) {
+    const isWin = process.platform === 'win32'
     const cmd = this.checkNpm() || 'npm';
     args = args || [];
-    let runner = spawn(cmd, args);
+    const options = isWin ? { shell: true } : { shell: false };
+    let runner = spawn(cmd, args, options);
+    runner.on('error', (code) => {
+      console.log(chalk.red(`error code ${code}`))
+    })
     runner.on('exit', (code: number) => {
+      console.log(chalk.green(`exec command code: ${code}`))
       if (fn) {
         fn(code);
       }

@@ -38,7 +38,6 @@ program
       quickAddConfig._download(lintConfig);
     });
   });
-
 program
   .command('template')
   .description('查看开发模板列表')
