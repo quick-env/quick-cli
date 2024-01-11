@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:17:36
  * @LastEditors: liya
- * @LastEditTime: 2023-10-12 19:51:58
+ * @LastEditTime: 2024-01-11 14:10:54
  * @Description: 创建工程模板
  */
 import ora from 'ora';
@@ -11,7 +11,6 @@ import chalk from 'chalk';
 import shell from 'shelljs';
 import symbols from 'log-symbols';
 import FileHelper from '../utils/file';
-import { checkVersion } from '../utils/check';
 import download from 'download-git-repo';
 import { TEMPLATE_LIST } from '../constant/template';
 import CompileTemplate from '../compile';
@@ -32,7 +31,6 @@ export default class QuickInit {
     this.meta = meta;
     this.projectName = name;
     this.rootDir = path.join(baseDir, name);
-    checkVersion();
   }
   /**
    * init action bootstrap

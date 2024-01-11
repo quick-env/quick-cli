@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:53:33
  * @LastEditors: liya
- * @LastEditTime: 2023-10-12 14:33:31
+ * @LastEditTime: 2024-01-11 14:10:43
  * @Description: vue模板编译
  */
 import { IBootstrap } from 'core/init';
@@ -31,6 +31,7 @@ export default class CompileTemplate {
    * 编译Electron模板
    */
   _electronTemplate() {
+    this._compileElectronRouter()
     this._compilePkg();
   }
   /**
@@ -50,6 +51,17 @@ export default class CompileTemplate {
    */
   async _compileRouter() {
     const router = `${this.root}/src/router/index.ts`;
+    const content = await fileHelper._readFile(router);
+    const compileContent = handlebars.compile(content)({
+      name: this.name,
+    });
+    fileHelper._writeFile(router, compileContent);
+  }
+  /**
+   * 编译Electron Router
+   */
+  async _compileElectronRouter() {
+    const router = `${this.root}/render/routes/index.ts`;
     const content = await fileHelper._readFile(router);
     const compileContent = handlebars.compile(content)({
       name: this.name,

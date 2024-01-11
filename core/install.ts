@@ -2,12 +2,14 @@
  * @Author: liya
  * @Date: 2023-09-04 18:23:56
  * @LastEditors: liya
- * @LastEditTime: 2023-09-14 19:15:03
+ * @LastEditTime: 2023-12-13 16:17:30
  * @Description:
  */
 import chalk from 'chalk';
 import which from 'which';
 import { spawn } from 'child_process';
+import path from 'path';
+const download = path.join(__dirname, './download.sh');
 class QuickInstall {
   checkNpm() {
     let installTools = ['pnpm', 'pnpm', 'cnpm', 'yarn'];
@@ -32,6 +34,17 @@ class QuickInstall {
     args = args || [];
     let runner = spawn(cmd, args);
     runner.on('exit', (code: number) => {
+      if (fn) {
+        fn(code);
+      }
+    });
+  }
+  /**
+   * 执行shell脚本
+   */
+  execShell(fn?: (code?: number) => void): void {
+    let runner = spawn('sh', [download], { stdio: 'inherit' });
+    runner.on('close', (code: number) => {
       if (fn) {
         fn(code);
       }

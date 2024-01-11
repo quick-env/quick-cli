@@ -1,5 +1,4 @@
 #! /usr/bin/env node
-import ora from 'ora';
 import chalk from 'chalk';
 import inquirer from 'inquirer';
 import figlet from 'figlet';
@@ -9,6 +8,8 @@ import QuickInit, { IBootstrap } from '../core/init';
 import quickAddConfig from '../core/add';
 import { LINT_PROMPT } from '../prompt/lint.prompt';
 import { INIT_PROMPT } from '../prompt/init.prompt';
+import install from '../core/install';
+import { checkVersion } from '../utils/check';
 const program = new Command();
 
 program.version(pkg.version);
@@ -17,6 +18,7 @@ program
   .command('init <project-name>')
   .description('初始化项目模板')
   .action((name) => {
+    checkVersion()
     inquirer.prompt(INIT_PROMPT).then((response: IBootstrap) => {
       const init = new QuickInit(name, response);
       init._bootstrap();
@@ -36,6 +38,14 @@ program
         process.exit(1);
       }
       quickAddConfig._download(lintConfig);
+    });
+  });
+program
+  .command('download')
+  .description('下载git模块')
+  .action(() => {
+    install.execShell(() => {
+      console.log(chalk.green(`git 模块下载完毕，请进入项目执行npm install`));
     });
   });
 

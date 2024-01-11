@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:25:55
  * @LastEditors: liya
- * @LastEditTime: 2023-10-12 10:39:00
+ * @LastEditTime: 2023-12-13 15:52:41
  * @Description: 文件操作
  */
 import fs from 'fs';
@@ -58,5 +58,22 @@ export default class FileHelper {
         return;
       }
     });
+  }
+  /**
+   * 拷贝文件
+   * @param { string } from 源位置
+   * @param { string } to 目标位置
+   */
+  _copyFile(from: string, to: string) {
+    if (this.isExit(from)) {
+      fs.copyFile(from, to, (error) => {
+        if (error) {
+          throw error;
+        }
+        console.log(chalk.green(`拷贝文件成功`));
+      });
+    } else {
+      console.log(chalk.yellow(`目标路径: ${from} 不存在`));
+    }
   }
 }

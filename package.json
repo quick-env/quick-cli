@@ -7,8 +7,9 @@
     "quick": "./dist/bin/quick.js"
   },
   "scripts": {
-    "watch": "npx tsc --watch",
-    "test": "node ./dist/bin/quick.js"
+    "watch": "npx tsc --watch && npm run copy",
+    "test": "node ./dist/bin/quick.js",
+    "copy": "node ./dist/utils/use.js"
   },
   "repository": {
     "type": "git",
@@ -43,5 +44,8 @@
     "semver": "^7.5.4",
     "shelljs": "^0.8.5",
     "which": "^4.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
   }
 }
