@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-08 19:05:34
  * @LastEditors: liya
- * @LastEditTime: 2023-09-11 16:53:47
+ * @LastEditTime: 2024-01-22 16:19:11
  * @Description: 工程化配置
  */
 import inquirer from 'inquirer';
@@ -19,7 +19,6 @@ export const LINT_PROMPT = [
       'lint-staged',
       'postcss',
       'tsconfig',
-      'vite',
       'none',
     ],
   },

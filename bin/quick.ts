@@ -6,10 +6,12 @@ import pkg from '../package.json';
 import { Command } from 'commander';
 import QuickInit, { IBootstrap } from '../core/init';
 import quickAddConfig from '../core/add';
+import buildTools from '../core/tools';
 import { LINT_PROMPT } from '../prompt/lint.prompt';
 import { INIT_PROMPT } from '../prompt/init.prompt';
 import install from '../core/install';
 import { checkVersion } from '../utils/check';
+import { BUILD_PROMPT } from '../prompt/build.prompt';
 const program = new Command();
 
 program.version(pkg.version);
@@ -18,7 +20,7 @@ program
   .command('init <project-name>')
   .description('初始化项目模板')
   .action((name) => {
-    checkVersion()
+    checkVersion();
     inquirer.prompt(INIT_PROMPT).then((response: IBootstrap) => {
       const init = new QuickInit(name, response);
       init._bootstrap();
@@ -27,7 +29,7 @@ program
 
 program
   .command('add')
-  .description('添加工程配置文件')
+  .description('添加工程配置文件, ESLint/husky/prettier/commitlint等')
   .action(async () => {
     inquirer.prompt(LINT_PROMPT).then((response: { lintConfig: string[] }) => {
       const { lintConfig } = response;
@@ -39,6 +41,16 @@ program
       }
       quickAddConfig._download(lintConfig);
     });
+  });
+program
+  .command('build:tools')
+  .description('添加构建工具')
+  .action(() => {
+    inquirer.prompt(BUILD_PROMPT).then((response: { buildConfig: string }) => {
+      const { buildConfig } = response
+      console.log(`buildConfig: ${buildConfig}`)
+      buildTools._download(buildConfig)
+    }) 
   });
 program
   .command('download')

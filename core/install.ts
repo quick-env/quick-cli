@@ -2,8 +2,8 @@
  * @Author: liya
  * @Date: 2023-09-04 18:23:56
  * @LastEditors: liya
- * @LastEditTime: 2023-12-13 16:17:30
- * @Description:
+ * @LastEditTime: 2024-01-22 16:32:24
+ * @Description: 安装服务
  */
 import chalk from 'chalk';
 import which from 'which';
