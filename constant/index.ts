@@ -7,3 +7,5 @@
  */
 export * from './reg'
 export * from './download'
+export * from './skills'
+export * from './build'

@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:23:56
  * @LastEditors: liya
- * @LastEditTime: 2024-01-22 16:32:24
+ * @LastEditTime: 2026-06-17 16:00:07
  * @Description: 安装服务
  */
 import chalk from 'chalk';
@@ -12,7 +12,7 @@ import path from 'path';
 const download = path.join(__dirname, './download.sh');
 class QuickInstall {
   checkNpm() {
-    let installTools = ['pnpm', 'pnpm', 'cnpm', 'yarn'];
+    let installTools = ['pnpm', 'npm', 'cnpm', 'yarn'];
     for (let i = 0, len = installTools.length; i < len; i++) {
       try {
         which.sync(installTools[i]);

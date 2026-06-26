@@ -26,6 +26,7 @@ export default class CompileTemplate {
     this._compilePkg();
     this._compileEnv();
     this._compileVite();
+    this._compileAiDocs();
   }
   /**
    * 编译Electron模板
@@ -67,6 +68,21 @@ export default class CompileTemplate {
       name: this.name,
     });
     fileHelper._writeFile(router, compileContent);
+  }
+  /**
+   * 编译 AI 文档 AGENT.md + CLAUDE.md
+   */
+  async _compileAiDocs() {
+    const docs = [`${this.root}/AGENT.md`, `${this.root}/CLAUDE.md`];
+    await Promise.all(
+      docs.map(async (doc) => {
+        const content = await fileHelper._readFile(doc);
+        const compileContent = handlebars.compile(content)({
+          name: this.name,
+        });
+        fileHelper._writeFile(doc, compileContent);
+      })
+    );
   }
   /**
    * 编译pkg + Readme

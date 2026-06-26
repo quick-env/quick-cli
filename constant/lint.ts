@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-09 11:47:00
  * @LastEditors: liya
- * @LastEditTime: 2023-09-14 16:15:14
+ * @LastEditTime: 2026-06-17 15:49:04
  * @Description: 工程化配置
  */
 import {
@@ -94,28 +94,28 @@ export const LINT_SCRIPTS: {
 // lint 安装包列表
 export const LINT_PKG_LIST: { [key: string]: string[] } = {
 	eslint: [
-		'eslint@8',
-		'eslint-config-prettier@9',
-		'eslint-config-standard-with-typescript@39',
-		'eslint-plugin-prettier@5',
-		'eslint-plugin-vue@9',
-		'@typescript-eslint/eslint-plugin@6',
-		'@typescript-eslint/parser@6',
-		'@vue/eslint-config-prettier@7',
-		'@vue/eslint-config-typescript@11',
+		'eslint@8.55.0',
+		'eslint-config-prettier@9.0.0',
+		'eslint-config-standard-with-typescript@39.0.0',
+		'eslint-plugin-prettier@5.0.0-alpha.2',
+		'eslint-plugin-vue@9.11.0',
+		'@typescript-eslint/eslint-plugin@6.5.0',
+		'@typescript-eslint/parser@6.5.0',
+		'@vue/eslint-config-prettier@7.1.0',
+		'@vue/eslint-config-typescript@11.0.3',
 	],
-	prettier: ['prettier@2'],
+	prettier: ['prettier@2.8.8'],
 	commitlint: [
-		'commitizen@4',
-		'conventional-changelog-cli@4',
+		'commitizen@4.3.0',
+		'conventional-changelog-cli@4.0.0',
 		'cz-emoji-chinese',
-		'@commitlint/cli@17',
-		'@commitlint/config-conventional@17',
+		'@commitlint/cli@17.7.1',
+		'@commitlint/config-conventional@17.7.0',
 	],
-	'lint-staged': ['lint-staged@14'],
-	husky: ['husky@8'],
-	tsconfig: ['typescript@5', '@tsconfig/node18@2'],
-	postcss: ['autoprefixer@10', 'postcss@8', 'postcss-nested@6', 'cssnano@6'],
+	'lint-staged': ['lint-staged@14.0.1'],
+	husky: ['husky@8.0.3'],
+	tsconfig: ['typescript@5.0.4', '@tsconfig/node18@2'],
+	postcss: ['autoprefixer@10.4.15', 'postcss@8.4.29', 'postcss-nested@6.0.1', 'cssnano@6.0.1'],
 	vite: [
 		'@vitejs/plugin-legacy@4',
 		'@vitejs/plugin-vue@4',

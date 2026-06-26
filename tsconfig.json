@@ -6,6 +6,7 @@
     "./constant/",
     "./core/",
     "./prompt/",
+    "./tests/",
     "./utils/"
   ],
   "exclude": ["node_modules"],
