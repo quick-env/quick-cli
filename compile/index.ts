@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:53:33
  * @LastEditors: liya
- * @LastEditTime: 2024-01-11 14:10:43
+ * @LastEditTime: 2026-07-13 14:29:00
  * @Description: vue模板编译
  */
 import { IBootstrap } from 'core/init';
@@ -107,11 +107,17 @@ export default class CompileTemplate {
    */
   async _compileEnv() {
     const env = `${this.root}/.env.production`;
+    const envDev = `${this.root}/.env.development`;
     const envContent = await fileHelper._readFile(env);
+    const envDevContent = await fileHelper._readFile(envDev);
+    const compileEnvDevContent = handlebars.compile(envDevContent)({
+      name: this.name,
+    });
     const compileEnvContent = handlebars.compile(envContent)({
       name: this.name,
     });
     fileHelper._writeFile(env, compileEnvContent);
+    fileHelper._writeFile(envDev, compileEnvDevContent);
   }
   /**
    * 编译vite config

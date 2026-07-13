@@ -2,7 +2,7 @@
  * @Author: liya
  * @Date: 2023-09-04 18:10:21
  * @LastEditors: liya
- * @LastEditTime: 2023-10-12 19:32:17
+ * @LastEditTime: 2026-07-13 14:58:31
  * @Description: 配置信息
  */
 export const TEMPLATE_LIST: { [key: string]: string } = {

@@ -9,6 +9,7 @@
   "scripts": {
     "watch": "npx tsc --watch && npm run copy",
     "test": "node ./dist/bin/quick.js",
+    "test:ai": "node ./dist/tests/ai/context.test.js && node ./dist/tests/ai/skills-download.test.js && node ./dist/tests/ai/skill-list.test.js",
     "copy": "node ./dist/utils/use.js"
   },
   "repository": {
